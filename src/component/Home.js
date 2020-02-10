@@ -10,7 +10,7 @@ const axios = require('axios');
 class Home extends Component {
   componentDidMount() {
     googleSignInCheck();
-    axios.get(`https://givegive-api.herokuapp.com/api/v1/posts`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/posts`)
       .then((results) => {
         console.log(results);
         let action = readPosts(results.data.data);
