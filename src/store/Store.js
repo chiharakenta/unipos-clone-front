@@ -2,15 +2,8 @@ import { createStore } from 'redux';
 
 const initdata = {
   isSignedIn: null,
-  posts: [
-    {
-      id: 1,
-      message: 'fuga',
-      created_at: '2020-01-24T03:24:04.025Z',
-      updated_at: '2020-01-24T03:24:04.025Z'
-    }
-  ],
-  claps: []
+  posts: [],
+  currentUser: {}
 };
 
 
@@ -46,23 +39,26 @@ function readPostsReduce(state, action) {
 }
 
 function createPostReduce(state, action) {
-  let newPosts = this.props.posts.unshift(action.post);
+  let newPosts = state.posts.slice();
+  newPost.unshift(action.post);
   return {
     posts: newPosts,
-    isSignedIn: state.isSignedIn
+    isSignedIn: state.isSignedIn,
+    currentUser: state.currentUser
   }
 }
 
 function deletePostReduce(state, action) {
   let newPosts = [];
-  for(let i in this.props.posts) {
-    if (this.props.posts[i].id != action.post.id) {
-      newPosts.unshift(this.props.posts[i].id);
+  for(let i in state.posts) {
+    if (state.posts[i].id != action.post.id) {
+      newPosts.unshift(state.posts[i].id);
     }
   }
   return {
     posts: newPosts,
-    isSignedIn: state.isSignedIn
+    isSignedIn: state.isSignedIn,
+    currentUser: state.currentUser
   }
 }
 
@@ -70,7 +66,8 @@ function signInReduce(state, action) {
   let newSignedIn = action.isSignedIn;
   return {
     posts: state.posts,
-    isSignedIn: newSignedIn
+    isSignedIn: newSignedIn,
+    currentUser: state.currentUser
   }
 }
 
