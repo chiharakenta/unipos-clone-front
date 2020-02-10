@@ -55,7 +55,7 @@ function deletePostReduce(state, action) {
   let newPosts = [];
   for(let i in state.posts) {
     if (state.posts[i].id != action.post.id) {
-      newPosts.unshift(state.posts[i].id);
+      newPosts.unshift(state.posts[i]);
     }
   }
   return {
