@@ -13,6 +13,9 @@ export function peerReducer(state = initdata, action) {
     case 'SIGN_IN': {
       return signInReduce(state, action);
     }
+    case 'CREATE_USER': {
+      return createUserReduce(state, action);
+    }
     case 'READ_POSTS': {
       return readPostsReduce(state, action);
     }
@@ -40,7 +43,7 @@ function readPostsReduce(state, action) {
 
 function createPostReduce(state, action) {
   let newPosts = state.posts.slice();
-  newPost.unshift(action.post);
+  newPosts.unshift(action.post);
   return {
     posts: newPosts,
     isSignedIn: state.isSignedIn,
@@ -62,22 +65,47 @@ function deletePostReduce(state, action) {
   }
 }
 
+function createUserReduce(state, action) {
+  let newUser = {
+    googleId: action.googleId,
+    name: action.name
+  }
+  console.log(newUser);
+  return {
+    posts: state.posts,
+    isSignedIn: state.isSignedIn,
+    currentUser: newUser
+  };
+}
+
 function signInReduce(state, action) {
+  let newUser = {
+    googleId: action.googleId,
+    name: action.name
+  };
   let newSignedIn = action.isSignedIn;
   return {
     posts: state.posts,
     isSignedIn: newSignedIn,
-    currentUser: state.currentUser
+    currentUser: newUser
   }
 }
 
 // アクションクリエーター
 
 // ユーザー変更のアクション
-export function signIn(isSignedIn) {
+export function signIn(isSignedIn, user) {
   return {
     type: 'SIGN_IN',
     isSignedIn: isSignedIn
+  }
+}
+
+export function createUser(currentUser) {
+  return {
+    type: 'CREATE_USER',
+    googleId: currentUser.dV,
+    name: currentUser.Ad
   }
 }
 

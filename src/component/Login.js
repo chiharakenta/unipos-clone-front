@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { signIn } from '../store/Store';
+import { signIn, createUser } from '../store/Store';
 import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -33,9 +33,12 @@ class Login extends Component {
     window.gapi.auth2.getAuthInstance().signIn()
       .then(() => {
         const auth = window.gapi.auth2.getAuthInstance();
-        let action = signIn(auth.isSignedIn.get());
-        this.props.dispatch(action);
-        window.location.href = '/'
+        let signInAction = signIn(auth.isSignedIn.get(), auth.currentUser.ie.Qt);
+        this.props.dispatch(signInAction);
+
+        let createUserAction = createUser(auth.currentUser.ie.Qt);
+        this.props.dispatch(createUserAction);
+        // window.location.href = '/';
       });
   }
 
