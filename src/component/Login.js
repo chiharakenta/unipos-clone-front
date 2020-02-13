@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { signIn, createUser } from '../store/Store';
+import { signIn } from '../store/Store';
 import { connect } from 'react-redux';
-
+const axios = require('axios');
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -33,22 +33,31 @@ class Login extends Component {
     window.gapi.auth2.getAuthInstance().signIn()
       .then(() => {
         const auth = window.gapi.auth2.getAuthInstance();
-        let signInAction = signIn(auth.isSignedIn.get(), auth.currentUser.ie.Qt);
-        this.props.dispatch(signInAction);
-
-        let createUserAction = createUser(auth.currentUser.ie.Qt);
-        this.props.dispatch(createUserAction);
+        let newUserData = {
+          google_id: auth.currentUser.Ab.w3.Eea,
+          name: auth.currentUser.Ab.w3.ig
+        };
+        axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, newUserData)
+          .then((results) => {
+            let user = results.data.data;
+            let action = signIn(user);
+            console.log(action);
+            this.props.dispatch(action);
+          })
+          .catch((data) => {
+            console.log(data);
+          })
         window.location.href = '/';
       });
   }
 
   logoutFromGoogle = () => {
     window.gapi.auth2.getAuthInstance().signOut()
-    .then(() => {
-      const auth = window.gapi.auth2.getAuthInstance();
-      let action = signIn(auth.isSignedIn.get());
-      this.props.dispatch(action);
-    });
+      .then(() => {
+        const auth = window.gapi.auth2.getAuthInstance();
+        let action = signIn(auth.isSignedIn.get());
+        this.props.dispatch(action);
+      });
   }
 
   render() {

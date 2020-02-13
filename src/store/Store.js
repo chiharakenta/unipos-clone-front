@@ -1,7 +1,6 @@
 import { createStore } from 'redux';
 
 const initdata = {
-  isSignedIn: null,
   posts: [],
   currentUser: {}
 };
@@ -12,9 +11,6 @@ export function peerReducer(state = initdata, action) {
   switch (action.type) {
     case 'SIGN_IN': {
       return signInReduce(state, action);
-    }
-    case 'CREATE_USER': {
-      return createUserReduce(state, action);
     }
     case 'READ_POSTS': {
       return readPostsReduce(state, action);
@@ -37,7 +33,7 @@ function readPostsReduce(state, action) {
   let newPosts = action.posts;
   return {
     posts: newPosts,
-    isSignedIn: state.isSignedIn
+    currentUser: state.currentUser
   }
 }
 
@@ -46,58 +42,42 @@ function createPostReduce(state, action) {
   newPosts.unshift(action.post);
   return {
     posts: newPosts,
-    isSignedIn: state.isSignedIn,
     currentUser: state.currentUser
   }
 }
 
 function deletePostReduce(state, action) {
-  let newPosts = [];
+  let newPosts = state.posts.slice();
   for(let i in state.posts) {
-    if (state.posts[i].id != action.post.id) {
-      newPosts.unshift(state.posts[i]);
+    if (state.posts[i].id === action.post.id) {
+      newPosts.splice(i, 1);
     }
   }
   return {
     posts: newPosts,
-    isSignedIn: state.isSignedIn,
     currentUser: state.currentUser
   }
 }
 
-function createUserReduce(state, action) {
-  let newUser = {
-    googleId: action.googleId,
-    name: action.name
-  }
-  console.log(newUser);
-  return {
-    posts: state.posts,
-    isSignedIn: state.isSignedIn,
-    currentUser: newUser
-  };
-}
-
 function signInReduce(state, action) {
-  let newUser = {
-    googleId: action.googleId,
+  let currentUser = {
+    id: action.id,
     name: action.name
   };
-  let newSignedIn = action.isSignedIn;
   return {
     posts: state.posts,
-    isSignedIn: newSignedIn,
-    currentUser: newUser
+    currentUser: currentUser
   }
 }
 
 // アクションクリエーター
 
 // ユーザー変更のアクション
-export function signIn(isSignedIn, user) {
+export function signIn(user) {
   return {
     type: 'SIGN_IN',
-    isSignedIn: isSignedIn
+    id: user.id,
+    name: user.name
   }
 }
 
