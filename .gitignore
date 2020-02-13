@@ -10,7 +10,7 @@
 
 # production
 build
-
+git rm -r --cached .
 # misc
 .DS_Store
 .env
