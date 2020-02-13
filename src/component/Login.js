@@ -33,20 +33,21 @@ class Login extends Component {
     window.gapi.auth2.getAuthInstance().signIn()
       .then(() => {
         const auth = window.gapi.auth2.getAuthInstance();
+        let userProfile = auth.currentUser.get().getBasicProfile();
         let newUserData = {
-          google_id: auth.currentUser.Ab.w3.Eea,
-          name: auth.currentUser.Ab.w3.ig
+          google_id: userProfile.dV,
+          name: userProfile.Ad
         };
         axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, newUserData)
           .then((results) => {
             let user = results.data.data;
             let action = signIn(user);
             this.props.dispatch(action);
+            window.location.href = '/';
           })
           .catch((data) => {
             console.log(data);
           })
-        window.location.href = '/';
       });
   }
 
