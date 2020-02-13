@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { postData } from './Function';
+
 
 class AddPostForm extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class AddPostForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    postData(`${process.env.REACT_APP_API_URL}/api/v1/posts`, { message: this.state.text });
+    postData(`${process.env.REACT_APP_API_URL}/api/v1/posts`, { user_id: this.props.currentUser.id, message: this.state.text });
     this.setState({
       text: ''
     });
@@ -35,4 +37,4 @@ class AddPostForm extends Component {
   }
 }
 
-export default AddPostForm;
+export default connect((state) => state)(AddPostForm);
