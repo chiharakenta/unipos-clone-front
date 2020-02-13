@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { signIn } from '../store/Store';
+import { signIn, signOut } from '../store/Store';
 import { connect } from 'react-redux';
 const axios = require('axios');
 class Login extends Component {
@@ -41,7 +41,6 @@ class Login extends Component {
           .then((results) => {
             let user = results.data.data;
             let action = signIn(user);
-            console.log(action);
             this.props.dispatch(action);
           })
           .catch((data) => {
@@ -54,8 +53,7 @@ class Login extends Component {
   logoutFromGoogle = () => {
     window.gapi.auth2.getAuthInstance().signOut()
       .then(() => {
-        const auth = window.gapi.auth2.getAuthInstance();
-        let action = signIn(auth.isSignedIn.get());
+        let action = signOut();
         this.props.dispatch(action);
       });
   }

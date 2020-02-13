@@ -12,6 +12,9 @@ export function peerReducer(state = initdata, action) {
     case 'SIGN_IN': {
       return signInReduce(state, action);
     }
+    case 'SIGN_OUT': {
+      return signOutReduce(state);
+    }
     case 'READ_POSTS': {
       return readPostsReduce(state, action);
     }
@@ -70,6 +73,13 @@ function signInReduce(state, action) {
   }
 }
 
+function signOutReduce(state) {
+  return {
+    posts: state.posts,
+    currentUser: {}
+  };
+}
+
 // アクションクリエーター
 
 // ユーザー変更のアクション
@@ -80,6 +90,13 @@ export function signIn(user) {
     name: user.name
   }
 }
+
+export function signOut() {
+  return {
+    type: 'SIGN_OUT'
+  }
+}
+
 
 export function createUser(currentUser) {
   return {
