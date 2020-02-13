@@ -38,7 +38,7 @@ class Login extends Component {
 
         let createUserAction = createUser(auth.currentUser.ie.Qt);
         this.props.dispatch(createUserAction);
-        // window.location.href = '/';
+        window.location.href = '/';
       });
   }
 

@@ -9,7 +9,6 @@ const axios = require('axios');
 
 class Home extends Component {
   componentDidMount() {
-    googleSignInCheck();
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/posts`)
       .then((results) => {
         console.log(results);
@@ -22,6 +21,7 @@ class Home extends Component {
   }
 
   render() {
+    googleSignInCheck();
     return (
       <div>
         <AddPostForm />
