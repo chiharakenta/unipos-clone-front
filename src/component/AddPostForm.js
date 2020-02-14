@@ -32,11 +32,10 @@ class AddPostForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let data = {
-      user_id: this.props.currentUser.id,
       message: this.state.text,
+      user_id: this.props.currentUser.id,
       introduced_user_id: this.state.selectedUserId
     };
-    console.log(data);
     postData(`${process.env.REACT_APP_API_URL}/api/v1/posts`, data);
     this.setState({
       text: ''
@@ -54,8 +53,7 @@ class AddPostForm extends Component {
         }
         this.setState({
           users: users,
-          selectedUserId: users[0].id,
-          text: this.state.text
+          selectedUserId: users[0].id
         })
       })
       .catch((data) => {
@@ -63,13 +61,12 @@ class AddPostForm extends Component {
       })
   }
   render() {
-    console.log(this.state);
     return (
       <form onSubmit={this.handleSubmit} >
         <textarea onChange={this.textChange} value={this.state.text} required></textarea>
         <select value={this.state.selectedUserId} onChange={this.selectUser}>
           {this.state.users.map((user)=>(
-            <option key={user.name} value={user.id}>{user.name}</option>
+            <option key={user.id} value={user.id}>{user.name}</option>
           ))}
         </select>
         <input id="postButton" type="submit" />

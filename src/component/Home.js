@@ -20,6 +20,7 @@ class Home extends Component {
       })
   }
 
+
   render() {
     googleSignInCheck();
     return (
@@ -27,7 +28,7 @@ class Home extends Component {
         <AddPostForm />
         <ul>
           {this.props.posts.map((post) => (
-            <li>
+            <li key={post.id}>
               {post.message} <DeletePostButton id={post.id} />
             </li>
           ))}
