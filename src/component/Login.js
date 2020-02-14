@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { signIn, signOut } from '../store/Store';
 import { connect } from 'react-redux';
+import { postData } from './Function';
 const axios = require('axios');
 class Login extends Component {
   constructor(props) {
@@ -41,6 +42,8 @@ class Login extends Component {
         axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, newUserData)
           .then((results) => {
             let user = results.data.data;
+            postData(`${process.env.REACT_APP_API_URL}/api/v1/points`, { user_id: user.id } );
+            postData(`${process.env.REACT_APP_API_URL}/api/v1/received_points`, { user_id: user.id } );
             let action = signIn(user);
             this.props.dispatch(action);
             window.location.href = '/';

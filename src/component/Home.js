@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddPostForm from './AddPostForm';
+import Profile from './Profile';
 import Clap from './Clap';
 import { connect } from 'react-redux';
 import { readPosts } from '../store/Store';
@@ -25,6 +26,7 @@ class Home extends Component {
     googleSignInCheck();
     return (
       <div>
+        <Profile />
         <AddPostForm />
         <ul>
           {this.props.posts.map((post) => (
