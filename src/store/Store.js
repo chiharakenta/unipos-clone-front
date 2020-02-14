@@ -24,6 +24,9 @@ export function peerReducer(state = initdata, action) {
     case 'DELETE_POSTS': {
       return deletePostReduce(state, action);
     }
+    case 'CLAP': {
+      return clapReduce(state, action);
+    }
     default: {
       return state;
     }
@@ -80,6 +83,19 @@ function signOutReduce(state) {
   };
 }
 
+function clapReduce(state, action) {
+  let newPosts = state.posts.slice();
+  for (let i in newPosts) {
+    if (newPosts[i].id === action.postId) {
+      newPosts[i].claps++;
+    }
+  }
+  return {
+    posts: newPosts,
+    currentUser: state.currentUser
+  };
+}
+
 // アクションクリエーター
 
 // ユーザー変更のアクション
@@ -124,6 +140,13 @@ export function deletePost(post) {
   return {
     type: 'DELETE_POSTS',
     post: post
+  };
+}
+
+export function clap(postId) {
+  return {
+    type: 'CLAP',
+    postId: postId
   };
 }
 

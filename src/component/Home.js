@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AddPostForm from './AddPostForm';
-import DeletePostButton from './DeletePostButton';
+import Clap from './Clap';
 import { connect } from 'react-redux';
 import { readPosts } from '../store/Store';
 import { googleSignInCheck } from './Function';
@@ -31,7 +31,7 @@ class Home extends Component {
             <li key={post.id}>
               <p>{post.introducing_user_name} → {post.introduced_user_name}</p>
               <p>{post.message}</p>
-              <DeletePostButton id={post.id} />
+              <Clap postId={post.id} claps={post.claps} />
             </li>
           ))}
         </ul>
@@ -40,4 +40,4 @@ class Home extends Component {
   }
 }
 
-export default connect((state) => state)(Home);;
+export default connect((state) => state)(Home);
