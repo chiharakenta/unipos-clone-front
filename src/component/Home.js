@@ -29,7 +29,9 @@ class Home extends Component {
         <ul>
           {this.props.posts.map((post) => (
             <li key={post.id}>
-              {post.message} <DeletePostButton id={post.id} />
+              <p>{post.introducing_user_name} → {post.introduced_user_name}</p>
+              <p>{post.message}</p>
+              <DeletePostButton id={post.id} />
             </li>
           ))}
         </ul>
