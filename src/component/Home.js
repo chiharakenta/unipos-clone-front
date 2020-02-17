@@ -4,11 +4,19 @@ import Profile from './Profile';
 import Clap from './Clap';
 import { connect } from 'react-redux';
 import { readPosts } from '../store/Store';
-import { googleSignInCheck } from './Function';
+import { googleSignInCheck, objectIsEmpty } from './Function';
 
 const axios = require('axios');
 
 class Home extends Component {
+  componentWillMount() {
+    googleSignInCheck();
+    let notSignedIn = objectIsEmpty(this.props.currentUser);
+    if (notSignedIn) {
+      window.location.href = '/login';
+    }
+  }
+
   componentDidMount() {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/posts`)
       .then((results) => {
@@ -23,7 +31,6 @@ class Home extends Component {
 
 
   render() {
-    googleSignInCheck();
     return (
       <div>
         <Profile />

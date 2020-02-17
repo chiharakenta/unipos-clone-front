@@ -43,3 +43,7 @@ export function googleSignInCheck() {
     })
   });
 }
+
+export function objectIsEmpty(obj){
+  return !Object.keys(obj).length;
+}

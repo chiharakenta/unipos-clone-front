@@ -12,7 +12,7 @@ class Profile extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/users/${this.props.currentUser.id}`)
       .then((results) => {
         console.log(results)
