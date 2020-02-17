@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { setPoint } from '../store/Store';
 const axios = require('axios');
 
 class Profile extends Component {
@@ -16,10 +17,8 @@ class Profile extends Component {
       .then((results) => {
         console.log(results)
         let user = results.data.data;
-        this.setState({
-          point: user.point,
-          receivedPoint: user.received_point
-        });
+        let action = setPoint(user);
+        this.props.dispatch(action);
       })
   }
 
@@ -27,8 +26,8 @@ class Profile extends Component {
     return (
       <div>
         <p>{this.props.currentUser.name}</p>
-        <p>送れるポイント: {this.state.point}</p>
-        <p>もらったポイント: {this.state.receivedPoint}</p>
+        <p>送れるポイント: {this.props.currentUser.point}</p>
+        <p>もらったポイント: {this.props.currentUser.received_point}</p>
       </div>
     );
   }

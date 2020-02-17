@@ -15,6 +15,12 @@ export function peerReducer(state = initdata, action) {
     case 'SIGN_OUT': {
       return signOutReduce(state);
     }
+    case 'SET_POINT': {
+      return setPointReduce(state, action);
+    }
+    case 'SEND_POINT': {
+      return sendPointReduce(state, action);
+    }
     case 'READ_POSTS': {
       return readPostsReduce(state, action);
     }
@@ -40,7 +46,7 @@ function readPostsReduce(state, action) {
   return {
     posts: newPosts,
     currentUser: state.currentUser
-  }
+  };
 }
 
 function createPostReduce(state, action) {
@@ -49,7 +55,7 @@ function createPostReduce(state, action) {
   return {
     posts: newPosts,
     currentUser: state.currentUser
-  }
+  };
 }
 
 function deletePostReduce(state, action) {
@@ -62,7 +68,7 @@ function deletePostReduce(state, action) {
   return {
     posts: newPosts,
     currentUser: state.currentUser
-  }
+  };
 }
 
 function signInReduce(state, action) {
@@ -73,13 +79,40 @@ function signInReduce(state, action) {
   return {
     posts: state.posts,
     currentUser: currentUser
-  }
+  };
 }
 
 function signOutReduce(state) {
   return {
     posts: state.posts,
     currentUser: {}
+  };
+}
+
+function setPointReduce(state, action) {
+  let newUser = {
+    id: state.currentUser.id,
+    name: state.currentUser.name,
+    point: action.point,
+    received_point: action.received_point
+  };
+  return {
+    posts: state.posts,
+    currentUser: newUser
+  };
+}
+
+function sendPointReduce(state, action) {
+  let newPoint = state.currentUser.point - action.sendPoint;
+  let newUser = {
+    id: state.currentUser.id,
+    name: state.currentUser.name,
+    point: newPoint,
+    received_point: state.currentUser.received_point
+  };
+  return {
+    posts: state.posts,
+    currentUser: newUser
   };
 }
 
@@ -104,22 +137,44 @@ export function signIn(user) {
     type: 'SIGN_IN',
     id: user.id,
     name: user.name
-  }
+  };
 }
+
 
 export function signOut() {
   return {
     type: 'SIGN_OUT'
-  }
+  };
 }
 
+export function setPoint(user) {
+  return {
+    type: 'SET_POINT',
+    point: user.point,
+    received_point: user.received_point
+  };
+}
+
+export function receivePoint(point) {
+  return {
+    type: 'RECEIVE_POINT',
+    receivePoint: point
+  };
+}
+
+export function sendPoint(point) {
+  return {
+    type: 'SEND_POINT',
+    sendPoint: point
+  };
+}
 
 export function createUser(currentUser) {
   return {
     type: 'CREATE_USER',
     googleId: currentUser.dV,
     name: currentUser.Ad
-  }
+  };
 }
 
 export function readPosts(posts) {
