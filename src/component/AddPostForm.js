@@ -86,7 +86,7 @@ class AddPostForm extends Component {
   }
   render() {
     let options = [];
-    for (let i = 5; i <= this.props.currentUser.point; i+=5) {
+    for (let i = 5; i <= this.props.currentUser.point && i <= 100; i+=5) {
       options.push(<option key={i} value={i}>{i}</option>);
     }
 
